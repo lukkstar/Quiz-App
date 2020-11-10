@@ -1,12 +1,12 @@
-import axios from "axios";
+import axios from 'axios';
 
 class APIService {
   addNewQuestion(question) {
-    return axios.post("/api/question", question);
+    return axios.post('/api/question', question);
   }
   saveResult(result, level, category) {
     const req = { level: level, point: result, category: category };
-    return axios.post("/api/question/result", req);
+    return axios.post('/api/question/result', req);
   }
   getQuestion(difficulty, category) {
     return axios.get(
@@ -14,10 +14,10 @@ class APIService {
     );
   }
   getPoints() {
-    return axios.get("/api/question/points");
+    return axios.get('/api/question/points');
   }
   getCategories() {
-    return axios.get("/api/question/category");
+    return axios.get('/api/question/category');
   }
 }
 
