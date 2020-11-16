@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import APIService from "../../service/APIService";
-import { Button, Divider } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import React, { useEffect } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import APIService from '../../service/APIService';
+import { Button } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(1),
-      width: "25ch",
+      width: '25ch',
     },
   },
   formControl: {
@@ -29,48 +29,45 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleContainer() {
   const classes = useStyles();
-  const [answer, setAnswer] = React.useState("");
+  const [answer, setAnswer] = React.useState('');
   const [current, setCurrent] = React.useState(0);
 
-  const [level, setLevel] = React.useState("");
-  const handleChange = (event) => {
+  const [level, setLevel] = React.useState('');
+  const handleChange = event => {
     setLevel(event.target.value);
   };
   const [point, setPoint] = React.useState(0);
   const [questions, setquestions] = React.useState();
   const [allAnswers, setAllAnswers] = React.useState([]);
   const [complete, setComplete] = React.useState(false);
-  const [categories, setCategories] = React.useState();
-  const [chosenCategory, setChosenCategory] = React.useState();
+  const [categories, setCategories] = React.useState([]);
+  const [chosenCategory, setChosenCategory] = React.useState('');
 
-  const handleAnswerChange = (event) => {
+  const handleAnswerChange = event => {
     setAnswer(event.target.value);
   };
-  const handleChooseCategoryChange = (event) => {
+  const handleChooseCategoryChange = event => {
     setChosenCategory(event.target.value);
   };
   useEffect(() => {
-    APIService.getCategories().then(
-      (res) => {
-        setCategories(res.data);
-      },
-      [setCategories]
-    );
+    APIService.getCategories().then(res => {
+      setCategories(res.data);
+    }, []);
   });
 
   const onStart = () => {
     setCurrent(0);
     setComplete(false);
-    setAnswer("");
+    setAnswer('');
     setPoint(0);
-    APIService.getQuestion(level, chosenCategory).then((res) => {
+    APIService.getQuestion(level, chosenCategory).then(res => {
       setquestions(res.data);
     });
   };
 
   const onAnswer = () => {
     setCurrent(current + 1);
-    setAnswer("");
+    setAnswer('');
     if (answer.toLowerCase() === questions[current].answer.toLowerCase()) {
       setPoint(point + 2);
     }
@@ -95,13 +92,13 @@ export default function SimpleContainer() {
       <Container
         maxWidth="sm"
         style={{
-          backgroundColor: "#fcba03",
-          height: "85vh",
-          marginTop: "15px",
-          paddingBottom: "15px",
+          backgroundColor: '#fcba03',
+          height: '85vh',
+          marginTop: '15px',
+          paddingBottom: '15px',
         }}
       >
-        <h2 style={{ textAlign: "center" }}>Lets Play</h2>
+        <h2 style={{ textAlign: 'center' }}>Lets Play</h2>
         {complete && <h2>Score: {point}</h2>}
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Category</InputLabel>
@@ -123,14 +120,14 @@ export default function SimpleContainer() {
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
           <Select value={level} onChange={handleChange}>
-            <MenuItem value={"easy"}>Easy</MenuItem>
-            <MenuItem value={"normal"}>Normal</MenuItem>
-            <MenuItem value={"hard"}>Hard</MenuItem>
+            <MenuItem value={'easy'}>Easy</MenuItem>
+            <MenuItem value={'normal'}>Normal</MenuItem>
+            <MenuItem value={'hard'}>Hard</MenuItem>
           </Select>
         </FormControl>
         <Button
-          disabled={level === ""}
-          style={{ background: "white" }}
+          disabled={level === ''}
+          style={{ background: 'white' }}
           onClick={onStart}
         >
           Play

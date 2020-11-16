@@ -47,6 +47,7 @@ router.get('/', async function (req, res) {
 router.get('/category', async function (req, res) {
   try {
     const categories = await Question.find({}).distinct('category');
+    res.send(categories);
   } catch (err) {
     console.log(err);
   }
